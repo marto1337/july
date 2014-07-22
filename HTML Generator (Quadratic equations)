@@ -1,0 +1,131 @@
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cmath>
+#include <ctime>
+using namespace std;
+
+#define COEFF_DIAPASON 5
+
+//==============================================================================
+void input(int &count_tests, int &count_tasks){
+    cout << endl;
+    cout << "How many tests would you like me to generate? ";
+    cin >> count_tests;
+    cout << "How many tasks would you like each test to have? ";
+    cin >> count_tasks;
+    cout << endl;
+}
+//==============================================================================
+int num_generator(int min, int max){
+    int num;
+    do{
+        num = rand()%(max-min+1)+min;
+    }while(num==0);
+    return num;
+}
+//==============================================================================
+void generate_problem(int &a, int &b, int &c){
+     int x,x2;
+     a=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
+     x=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
+     x2=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
+     b=((x+x2)*-1)*a;
+     c=x*x2*a;
+}
+//==============================================================================
+int problem_solver(int a, int b, int c, double &x, double &x2, int &D){
+    D = b*b - 4*a*c;
+    if(D>0){
+        x = (-b + sqrt(D))/(2*a);
+        x2 = (-b - sqrt(D))/(2*a);
+        return 1;
+    }
+    else if(D==0){
+        x = -b/(2*a);
+        return 2;
+    }
+    else if(D<0){
+         return 3;
+    }
+}
+//==============================================================================
+void test_generator(int count_tests, int count_tasks, int &a, int &b, int &c, double &x, double &x2, int &D){
+    ostringstream filename, filename_answers;
+    int i_tests, i_tasks, D_case;
+    for(i_tests=1;i_tests<=count_tests;i_tests++){
+        filename << "test_" << i_tests << ".html";
+        filename_answers << "test_" << i_tests << "_answers.html";
+        ofstream test(filename.str().c_str());
+        ofstream answers(filename_answers.str().c_str());
+        if(test.is_open() && answers.is_open()){
+            test << "<!DOCTYPE html>" << endl;
+            answers << "<!DOCTYPE html>" << endl;
+            test << "<html>" << endl;
+            answers << "<html>" << endl;
+            test << "<head>" << endl;
+            answers << "<head>" << endl;
+            test << "<title>" << "Quadratic equations. Test (Group " << i_tests << ")" << "</title>" << endl;
+            answers << "<title>" << "Quadratic equations. Answers (Group " << i_tests << ")" << "</title>" << endl;
+            test << "</head>" << endl;
+            answers << "</head>" << endl;
+            test << "<body>" << endl << endl;
+            answers << "<body>" << endl << endl;
+            test << "<h1>Quadratic equations. Test (Group " << i_tests << ")</h1>" << endl;
+            answers << "<h1>Quadratic equations. Answers (Group " << i_tests << ")</h1>" << endl;
+            for(i_tasks=1;i_tasks<=count_tasks;i_tasks++){
+                generate_problem(a,b,c);
+                test << endl << "<h3>Task #" << i_tasks << "</h3>" << endl;
+                test << "<p>Solve the equation:<br>" << endl;
+                test << "(" << a << ")x^2 + (" << b << ")x + (" << c << ") = 0;</p>" << endl;
+                answers << endl << "<h3>Task #" << i_tasks << "</h3>" << endl;
+                D_case = problem_solver(a,b,c,x,x2,D);
+                answers << "<p>D = b^2 - 4*a*c; D = " << D << "<br>" << endl;
+                switch(D_case){
+                case 1:
+                    answers << "There are two real solutions since D is possitive:<br>" << endl;
+                    answers << "x1 = (-b + sqrt(D)) / (2*a); x1 = " << x << "<br>" << endl;
+                    answers << "x2 = (-b - sqrt(D)) / (2*a); x2 = " << x2 << "</p>" << endl;
+                    break;
+                case 2:
+                    answers << "There is only one solution since D is zero:<br>" << endl;
+                    answers << "x = -b / (2*a); x = " << x << "</p>" << endl;
+                    break;
+                case 3:
+                    answers << "There is no solution since D is negative..</p>" << endl;
+                    break;
+                }
+            }
+            test << endl << "</body>" << endl;
+            answers << endl << "</body>" << endl;
+            test << "</html>" << endl;
+            answers << "</html>" << endl;
+            test.close();
+            answers.close();
+        }
+        else{
+            cout << "Error: could not create files!" << endl;
+        }
+        cout << filename.str() << " successfully generated.." << endl;
+        cout << filename_answers.str() << " successfully generated.." << endl;
+        filename.str("");
+        filename_answers.str("");
+    }
+}
+
+//==============================================================================
+int main(){
+    
+    int count_tests,count_tasks;
+    int a,b,c;
+    double x,x2;
+    int D;
+
+    input(count_tests,count_tasks);
+    test_generator(count_tests,count_tasks,a,b,c,x,x2,D);
+
+
+    return 0;
+}
+
+
