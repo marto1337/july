@@ -1,0 +1,27 @@
+1. Custom .html generation (number of tests and tasks).
+  - function to allow data from the user to be stored in variables;
+  - customizing the .html generating function so that it OBEYS THE USER'S WILL!;
+
+2. Number generator.
+  - function that can generate a random number every time;
+  - option to choose the minimal and maximal number to generate;
+  
+3. Function to generate random equations.
+  - easy customization of how large number to be used;
+  - verification that a != 0, since devision by 0 is undefined;
+  - verification that x1 and x2 will be integers, so that the solution
+                                            does not require a calculator;
+
+4. Function to solve the equations.
+  - finding the discriminant;
+  - finding x depending on the 3 possible cases:
+                                    - 2 real solutions
+                                      - only 1 solution
+                                        - no solution;
+
+5. Function to generate the .html files.
+  - writing the number of .html files, required by the user;
+  - writing the number of tasks in each file, required by the user;
+  - writing .html file with the answers of the generated tests;
+  
+6. Making the whole thing work :D
