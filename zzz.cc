@@ -3,7 +3,7 @@
 #include <ctime>
 using namespace std;
 
-#define COEFF_DIAPASON 3
+#define COEFF_DIAPASON 5
 
 //==============================================================================
 void input(int &a, int &b, int &c){
@@ -54,11 +54,11 @@ void something_int(int &a, int &b, int &c){ //generating int x1 and x2;
      int x,x2;
      do{
          a=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
-     }while(a==0); //prevent division by 0;
-     x=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
-     x2=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
-     b=((x+x2)*-1)*a;
-     c=x*x2*a;
+         x=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
+         x2=num_generator(-COEFF_DIAPASON,COEFF_DIAPASON);
+         b=((x+x2)*-1)*a;
+         c=x*x2*a;
+     }while((a*x*x2*b*c)==0);
      cout << endl << "==========================================================" << endl;
      cout << "Generating quadratic equation: (" << a << ")x^2 + (" << b << ")x + (" << c << ") = 0;" << endl;
      //cout << "x1: " << x << "; x2: " << x2 << endl;
